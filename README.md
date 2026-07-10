@@ -1,8 +1,5 @@
 # I'm Abbas Nadir,
 
-     CSE Student at Ramdeobaba University, Nagpur
-     07/2024 - Present
-
 A Full-Stack Web Developer with specialiaztion in **Backend development** and a linux enthusiast with newly found interest in FOSS. A learning CP participant and a hackathon enthusiast.
 
 ## 🏆 Achievements
