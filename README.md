@@ -7,17 +7,14 @@ A Full-Stack Web Developer with a specialization in **Backend Development**, a L
 ## 🌐 Connect with Me
 
 <p align="left">
-<a href="YOUR_LINKEDIN_URL_HERE" target="_blank" rel="noreferrer">
+<a href="https://www.linkedin.com/in/abbas-nadir-393143322/" target="_blank" rel="noreferrer">
   <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
 </a>
-<a href="YOUR_TWITTER_OR_X_URL_HERE" target="_blank" rel="noreferrer">
-  <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter" />
-</a>
-<a href="YOUR_PORTFOLIO_OR_WEBSITE_URL_HERE" target="_blank" rel="noreferrer">
-  <img src="https://img.shields.io/badge/Portfolio-2563EB?style=for-the-badge&logo=globe&logoColor=white" alt="Portfolio" />
-</a>
-<a href="YOUR_LEETCODE_URL_HERE" target="_blank" rel="noreferrer">
+<a href="https://leetcode.com/pro0grammer/" target="_blank" rel="noreferrer">
   <img src="https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=white" alt="LeetCode" />
+</a>
+<a href="mailto:abbasnadir.dev@proton.me" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/badge/Email-8B5CF6?style=for-the-badge&logo=protonmail&logoColor=white" alt="Email" />
 </a>
 </p>
 
@@ -28,6 +25,8 @@ A Full-Stack Web Developer with a specialization in **Backend Development**, a L
 - **LeetCode (Rank: 1492)** — Actively learning and participating in competitive programming and algorithmic problem-solving.
 - 🥈 **2nd Place — Team Cybirbs** (TechmentorX, Priyadarshini College, Nagpur)
   - Built an AI-powered student monitoring platform for early learning-gap detection using AI-generated quizzes and personalized study guidance.
+- 🥉 **3rd Place — Team TechSquad** (MEDHA Medithon 2026, VNIT Nagpur)
+  - Built **SureStep**, an offline-first mobile app using on-device computer vision to assess Clubfoot (CTEV) across all 6 Pirani components and predict treatment outcomes.
 
 ---
 
