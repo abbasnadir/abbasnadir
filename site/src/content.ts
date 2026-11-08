@@ -14,7 +14,16 @@ export const site = {
   },
   // DRAFT
   summary: 'Backend developer and CSE student in Nagpur, looking for an internship.',
+  // DRAFT: everything below is assembled from the resume and repos; rewrite it in your own voice.
+  bio: [
+    'I’m a third-year B.Tech student in Computer Science (AI and ML) at Ramdeobaba University in Nagpur. Most of what I build is backend work: REST APIs in Express and TypeScript, schemas in PostgreSQL and MongoDB, auth with JOSE and Supabase row-level security.',
+    'I run Linux on everything and wrote Lock Keys for the COSMIC desktop, and I send patches upstream when something in a tool I use is broken. Outside coursework I go to hackathons and help run my college’s CTF.',
+  ],
+  now: 'I’m building a video-to-OpenSim pipeline for a digital shoulder twin at Leelatai Kulkarni Hospital: MediaPipe, RTMW3D and MotionBERT estimate pose from video, and OpenSim 4.6 turns it into shoulder kinematics.',
 }
+
+export const tags = ['APIs', 'Real-time', 'Data', 'Mobile', 'Systems'] as const
+export type Tag = (typeof tags)[number]
 
 export type DiagramNode = {
   id: string
@@ -56,6 +65,7 @@ export type Project = {
   when: string
   summary: string
   stack: string[]
+  tags: Tag[]
   role: string
   repo: string
   live?: string
@@ -75,6 +85,7 @@ export const projects: Project[] = [
     when: '2026',
     summary: 'Self-hosted website analytics, from the tracking script to the metrics worker.',
     stack: ['Express', 'TypeScript', 'MongoDB', 'Python', 'Next.js', 'Zod', 'OpenAPI'],
+    tags: ['APIs', 'Data'],
     role: 'Team of four. I wrote most of the code (16 of 20 commits), including the ingestion API.',
     repo: 'https://github.com/abbasnadir/analytics-tracker',
     problem:
@@ -131,6 +142,7 @@ export const projects: Project[] = [
     when: 'Dec 2025 to 2026',
     summary: 'Multiplayer Hangman for up to 50 players over WebSockets.',
     stack: ['Node.js', 'Express', 'Socket.IO', 'Supabase', 'Next.js', 'JOSE', 'Zod'],
+    tags: ['APIs', 'Real-time'],
     role: 'Solo project, 117 commits.',
     repo: 'https://github.com/abbasnadir/hangman-v2',
     live: 'https://hangman.abbasnadir.tech',
@@ -185,6 +197,7 @@ export const projects: Project[] = [
     when: '2026',
     summary: 'Offline clubfoot assessment for rural health workers; third prize at Medithon.',
     stack: ['Flutter', 'Google ML Kit', 'SQLite', 'Flask', 'PostgreSQL'],
+    tags: ['Mobile', 'Data'],
     role: 'Team TechSquad. I built landmark adjustment, patient records, brace tracking and teleconsultation, plus the early Flask backend.',
     repo: 'https://github.com/abbasnadir/techsquad-medithon',
     problem:
@@ -300,21 +313,60 @@ export const hackathons = [
   { place: 'Second place', event: 'TechmentorX, Priyadarshini College', what: 'AI-generated quizzes to spot learning gaps early, with Team Cybirbs' },
 ]
 
-export const smallerThings = [
+export type OtherProject = {
+  name: string
+  url: string
+  what: string
+  stack: string[]
+  tags: Tag[]
+  live?: string
+}
+
+// Role notes come from commit history: Nagpur Traffic AI is a team of three (9 of 17 commits are Abbas’s);
+// the rest are solo repos.
+export const otherProjects: OtherProject[] = [
   {
     name: 'Lock Keys',
     url: 'https://github.com/abbasnadir/lock-keys',
     what: 'A Rust daemon and COSMIC panel applets that show Caps Lock and Num Lock state on keyboards without indicator LEDs.',
+    stack: ['Rust', 'COSMIC'],
+    tags: ['Systems'],
+  },
+  {
+    name: 'Nagpur Traffic AI',
+    url: 'https://github.com/abbasnadir/viksit-nagpur',
+    what: 'Team project: a traffic dashboard for Nagpur with a FastAPI REST and WebSocket backend and a React map.',
+    stack: ['FastAPI', 'Python', 'React', 'WebSockets'],
+    tags: ['Real-time', 'Data'],
+  },
+  {
+    name: 'Stock market visualizer',
+    url: 'https://github.com/abbasnadir/stock-market-visualizer',
+    what: 'A Dash app for stock charts and paper-trading portfolios, with Supabase auth and live prices from Yahoo Finance.',
+    stack: ['Python', 'Dash', 'Supabase'],
+    tags: ['Data'],
+  },
+  {
+    name: 'Chatbot',
+    url: 'https://github.com/abbasnadir/chatbot',
+    what: 'A Gemini wrapper with sign-in and chats saved to a database.',
+    stack: ['Next.js', 'TypeScript'],
+    tags: ['APIs'],
+    live: 'https://chatbot-two-xi-30.vercel.app',
   },
   {
     name: 'Blink Bot',
     url: 'https://github.com/abbasnadir/blinkbot',
     what: 'A Discord bot with a web dashboard and a database. Archived.',
+    stack: ['JavaScript', 'Discord'],
+    tags: ['APIs'],
   },
   {
     name: 'Supabase backend template',
     url: 'https://github.com/abbasnadir/supabase-backend-template',
     what: 'The starter I reuse for full-stack apps on Supabase.',
+    stack: ['TypeScript', 'Supabase'],
+    tags: ['APIs'],
   },
 ]
 

@@ -1,6 +1,6 @@
-import { useId } from 'react'
+import { useEffect, useId, useState } from 'react'
 import type { Diagram, DiagramNode } from '../content'
-import { useReducedMotion } from '../hooks'
+import { useReducedMotion, useSeen } from '../hooks'
 
 const NODE_W = 180
 const NODE_H = 64
@@ -30,17 +30,11 @@ function anchor(from: DiagramNode, to: DiagramNode) {
   }
 }
 
-export function FlowDiagram({ diagram }: { diagram: Diagram }) {
-  const uid = useId().replace(/:/g, '')
-  const reduced = useReducedMotion()
+function layout(diagram: Diagram, uid: string) {
   const byId = new Map(diagram.nodes.map((n) => [n.id, n]))
-
   const edges = diagram.edges.map((e, i) => {
-    const from = byId.get(e.from)!
-    const to = byId.get(e.to)!
-    const { a, b, horizontal } = anchor(from, to)
+    const { a, b, horizontal } = anchor(byId.get(e.from)!, byId.get(e.to)!)
     const off = e.bend ?? 0
-    // Offset perpendicular to the main direction so paired edges sit side by side.
     const ox = horizontal ? 0 : off
     const oy = horizontal ? off : 0
     const a2 = { x: a.x + ox, y: a.y + oy }
@@ -57,18 +51,58 @@ export function FlowDiagram({ diagram }: { diagram: Diagram }) {
     const count = e.both ? 4 : e.hot ? 3 : 2
     return { ...e, id: `${uid}-e${i}`, d, labelPos, count }
   })
-
   const description = diagram.edges
     .map((e) => `${byId.get(e.from)!.label} to ${byId.get(e.to)!.label}${e.label ? ` (${e.label})` : ''}`)
     .join('; ')
+  return { edges, description }
+}
+
+function Packets({ edge, scale = 1 }: { edge: ReturnType<typeof layout>['edges'][number]; scale?: number }) {
+  return Array.from({ length: edge.count }, (_, k) => {
+    const dur = edge.hot ? 2.2 : 3.2
+    // Negative begin starts each packet mid-flight, so none sit at (0,0) waiting.
+    const begin = -((k * dur) / edge.count)
+    const reverse = edge.both && k % 2 === 1
+    return (
+      <circle key={k} r={(edge.hot ? 3.5 : 2.5) * scale} className={edge.hot && !reverse ? 'packet packet-hot' : 'packet'}>
+        <animateMotion
+          dur={`${dur}s`}
+          begin={`${begin}s`}
+          repeatCount="indefinite"
+          keyPoints={reverse ? '1;0' : undefined}
+          keyTimes={reverse ? '0;1' : undefined}
+          calcMode={reverse ? 'linear' : undefined}
+        >
+          <mpath href={`#${edge.id}`} />
+        </animateMotion>
+      </circle>
+    )
+  })
+}
+
+// Full diagram for case studies: labelled nodes and edges. Edges draw in once the
+// figure scrolls into view, then packets start moving along them.
+export function FlowDiagram({ diagram }: { diagram: Diagram }) {
+  const uid = useId().replace(/:/g, '')
+  const reduced = useReducedMotion()
+  const [ref, seen] = useSeen<HTMLElement>(0.3)
+  const [flowing, setFlowing] = useState(false)
+  const { edges, description } = layout(diagram, uid)
+
+  useEffect(() => {
+    if (!seen || reduced) return
+    const t = setTimeout(() => setFlowing(true), 520)
+    return () => clearTimeout(t)
+  }, [seen, reduced])
 
   return (
-    <figure className="diagram">
+    <figure ref={ref} className={`m-0 rounded-md bg-surface p-4 ${seen || reduced ? 'is-seen' : ''}`}>
       <div className="diagram-scroll">
         <svg
           viewBox={`0 0 ${WIDTH} ${diagram.height}`}
           role="img"
           aria-label={`${diagram.title}: ${description}`}
+          className="block h-auto w-full min-w-[620px]"
         >
           <defs>
             <marker id={`${uid}-arrow`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -81,37 +115,17 @@ export function FlowDiagram({ diagram }: { diagram: Diagram }) {
               <path
                 id={e.id}
                 d={e.d}
+                pathLength={1}
                 className={e.hot ? 'edge edge-hot' : 'edge'}
-                markerEnd={`url(#${uid}-arrow)`}
-                markerStart={e.both ? `url(#${uid}-arrow)` : undefined}
+                markerEnd={seen || reduced ? `url(#${uid}-arrow)` : undefined}
+                markerStart={e.both && (seen || reduced) ? `url(#${uid}-arrow)` : undefined}
               />
               {e.label && (
                 <text x={e.labelPos.x} y={e.labelPos.y} className="edge-label" textAnchor={e.labelPos.anchor}>
                   {e.label}
                 </text>
               )}
-              {!reduced &&
-                Array.from({ length: e.count }, (_, k) => {
-                  const count = e.count
-                  const dur = e.hot ? 2.2 : 3.2
-                  // Negative begin starts each packet mid-flight, so none sit at (0,0) waiting.
-                  const begin = -((k * dur) / count)
-                  const reverse = e.both && k % 2 === 1
-                  return (
-                    <circle key={k} r={e.hot ? 3.5 : 2.5} className={e.hot && !reverse ? 'packet packet-hot' : 'packet'}>
-                      <animateMotion
-                        dur={`${dur}s`}
-                        begin={`${begin}s`}
-                        repeatCount="indefinite"
-                        keyPoints={reverse ? '1;0' : undefined}
-                        keyTimes={reverse ? '0;1' : undefined}
-                        calcMode={reverse ? 'linear' : undefined}
-                      >
-                        <mpath href={`#${e.id}`} />
-                      </animateMotion>
-                    </circle>
-                  )
-                })}
+              {flowing && <Packets edge={e} />}
             </g>
           ))}
 
@@ -130,7 +144,34 @@ export function FlowDiagram({ diagram }: { diagram: Diagram }) {
           ))}
         </svg>
       </div>
-      <figcaption>{diagram.title}</figcaption>
+      <figcaption className="mt-3 font-sans text-[0.9375rem] text-muted">{diagram.title}</figcaption>
     </figure>
+  )
+}
+
+// Shape-only thumbnail of the same architecture: boxes, threads and packets, no text.
+// Decorative next to a written summary, so it is hidden from assistive tech.
+export function DiagramGlyph({ diagram }: { diagram: Diagram }) {
+  const uid = useId().replace(/:/g, '')
+  const reduced = useReducedMotion()
+  const [ref, seen] = useSeen<HTMLDivElement>(0.4)
+  const { edges } = layout(diagram, uid)
+
+  return (
+    <div ref={ref} className={seen || reduced ? 'is-seen' : ''} aria-hidden="true">
+      <svg viewBox={`0 0 ${WIDTH} ${diagram.height}`} className="block h-auto w-full">
+        {edges.map((e) => (
+          <g key={e.id}>
+            <path id={e.id} d={e.d} pathLength={1} className={e.hot ? 'edge edge-hot' : 'edge'} style={{ strokeWidth: 4 }} />
+            {seen && !reduced && <Packets edge={{ ...e, count: e.hot ? 2 : 1 }} scale={2.6} />}
+          </g>
+        ))}
+        {diagram.nodes.map((n) => (
+          <g key={n.id} transform={`translate(${n.x},${n.y})`} className={n.accent ? 'node node-accent' : 'node'}>
+            <rect width={n.w ?? NODE_W} height={NODE_H} rx="10" style={{ strokeWidth: 4 }} />
+          </g>
+        ))}
+      </svg>
+    </div>
   )
 }
