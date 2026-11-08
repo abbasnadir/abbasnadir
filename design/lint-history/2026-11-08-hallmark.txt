@@ -1,0 +1,6 @@
+/tmp/tmp.p7SKc0Kjrk/snap/home.html
+  FAIL 20 :1 no Hallmark stamp on the first non-empty line of any CSS | fix: The stamp comment is line 1 of the CSS; only @charset may precede it
+/tmp/tmp.p7SKc0Kjrk/snap/metricflow.html
+  FAIL 20 :1 no Hallmark stamp on the first non-empty line of any CSS
+  WARN 58 :1 486 visible words on the page (450 at most) | fix: Cut copy: one idea per screen, sections become objects
+sloplint: 2 FAIL, 1 WARN across 3 file(s).

@@ -1,0 +1,42 @@
+snap-before/home.html
+  FAIL 19 :23 dash "–" in copy | fix: A comma, a colon, a full stop or parentheses; never a dash
+  FAIL 20 :1 no Hallmark stamp on the first non-empty line of any CSS | fix: The stamp comment is line 1 of the CSS; only @charset may precede it
+  FAIL 34 :1 no overflow-x: clip on html and body | fix: overflow-x: clip on both html and body
+  FAIL 48 :19 colour literal #000 outside tokens (-webkit-mask-image on .packet-field) | fix: Lift the value into the token block
+  FAIL 48 :19 colour literal #000 outside tokens (mask-image on .packet-field)
+  FAIL 48 :19 colour literal #efe9df47 outside tokens (stroke on .edge)
+  FAIL 48 :19 colour literal #efe9df73 outside tokens (fill on .diagram-arrow)
+  FAIL 54 :23 eyebrow "backend-focused full-stack deve…" before <h1> | fix: Cut it; the heading already says this (craft.md § 7 has twelve other openings)
+  FAIL 63 :23 middle-dot meta string "Express · TypeScript · MongoDB · Python · Next.js…" | fix: Line breaks, columns or hairlines; one dot in a byline at most
+  FAIL 63 :23 arrow glued to the label "case study →" | fix: A verb as the label; the link already says it goes somewhere
+  FAIL 67 :19 .eyebrow: uppercase tracked 0.08em in a label role | fix: Labels, captions, table heads, nav links and meta are the body face (or the theme's label face), a step smaller, sentence case, untracked
+  REFLEX 24b :19 margin: -2.5px (off the 4px scale) on .spark | fix: Use the 4px spacing scale
+  REFLEX 26b :1 no :active styling anywhere | fix: All eight states; guard: not a form control, no aria-disabled anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  REFLEX 38iii :19 accented word inside a heading (.section-n) | fix: Set the whole head one way: a line break, a second line at a second size, or the whole head in the accent. Guard: the theme names the coloured word as its signature and it appears once on the page, in the hero
+  REFLEX 64 :19 monospace label voice on .eyebrow | fix: Labels in the body face, a step smaller, sentence case; mono only for code and figures
+  REFLEX 64 :19 monospace label voice on .diagram figcaption
+  REFLEX 64 :19 monospace label voice on .edge-label
+  WARN 58 :1 469 visible words on the page (450 at most) | fix: Cut copy: one idea per screen, sections become objects
+  WARN 58 :23 hero paragraph runs 13 words | fix: One sentence, twelve words or fewer
+  WARN F1 :23 straight quote in prose x4 (first: Replaced "circle" with "t) | fix: Use typographic quotes: “ ” ’
+  WARN F3 :19 no text-wrap: balance on any display head (5 head rule(s), e.g. h1,h2,h3) | fix: Add text-wrap: balance to h1/h2-level heads
+snap-before/metricflow.html
+  FAIL 20 :1 no Hallmark stamp on the first non-empty line of any CSS
+  FAIL 34 :1 no overflow-x: clip on html and body
+  FAIL 48 :19 colour literal #000 outside tokens (-webkit-mask-image on .packet-field)
+  FAIL 48 :19 colour literal #000 outside tokens (mask-image on .packet-field)
+  FAIL 48 :19 colour literal #efe9df47 outside tokens (stroke on .edge)
+  FAIL 48 :19 colour literal #efe9df73 outside tokens (fill on .diagram-arrow)
+  FAIL 63 :23 arrow glued to the label "Hangman V2 →"
+  FAIL 67 :19 .eyebrow: uppercase tracked 0.08em in a label role
+  REFLEX 24b :19 margin: -2.5px (off the 4px scale) on .spark
+  REFLEX 26b :1 no :active styling anywhere
+  REFLEX 26b :1 no :disabled styling anywhere
+  REFLEX 64 :19 monospace label voice on .eyebrow
+  REFLEX 64 :19 monospace label voice on .diagram figcaption
+  REFLEX 64 :19 monospace label voice on .edge-label
+  WARN 58 :1 496 visible words on the page (450 at most)
+  WARN F1 :23 straight quote in prose x4 (first: ays it plainly: "if backend brea)
+  WARN F3 :19 no text-wrap: balance on any display head (5 head rule(s), e.g. h1,h2,h3)
+sloplint: 19 FAIL, 13 REFLEX, 7 WARN across 2 file(s).

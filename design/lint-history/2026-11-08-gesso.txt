@@ -1,0 +1,8 @@
+/tmp/tmp.p7SKc0Kjrk/snap/home.html: SLOP (severity 3, 9 advisory)
+  [type/underlined-text] 3x: Underlined UI text reads as a hyperlink or a typewriter document, never as polished product type. (e.g. text-decoration-line:underline; text-decoration-line:underline; text-decoration-line:underline)
+  [layout/overstuffed-row] [advisory] 9x: The everything-row: thumbnail plus kicker plus title plus location plus quote plus mini-viz crammed into each repeated item, past any scannable density. (e.g. 17 slots in one row; 20 slots in one row; 7 slots in one row)
+/tmp/tmp.p7SKc0Kjrk/snap/metricflow.html: SLOP (severity 3, 5 advisory)
+  [type/underlined-text] 3x: Underlined UI text reads as a hyperlink or a typewriter document, never as polished product type. (e.g. text-decoration-line:underline; text-decoration-line:underline; text-decoration-line:underline)
+  [layout/overstuffed-row] [advisory] 5x: The everything-row: thumbnail plus kicker plus title plus location plus quote plus mini-viz crammed into each repeated item, past any scannable density. (e.g. 6 slots in one row; 16 slots in one row; 5 slots in one row)
+
+2 file(s), 6 slop occurrence(s), 14 advisory.

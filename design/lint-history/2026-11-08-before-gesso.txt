@@ -1,0 +1,10 @@
+snap-before/home.html: SLOP (severity 4, 14 advisory)
+  [copy/em-dash-copy] 2x: An em dash mid-sentence is the single most recognizable generated-TEXT tell; polished interface copy uses commas, colons, and periods. (e.g. em dash in copy; em dash in copy)
+  [copy/live-clock-eyebrow] 1x: A 'LIVE'/'NOW' dot badge and/or the current wall-clock time shown as a UI eyebrow: the device status bar already shows the time, and the live dot is decorative chrome. (e.g. "now")
+  [color/multicolor-heading] 1x: The two-tone headline: a few words dipped in the accent color while the rest stays neutral, the default move for faking emphasis. (e.g. "§06What I work with")
+  [layout/overstuffed-row] [advisory] 11x: The everything-row: thumbnail plus kicker plus title plus location plus quote plus mini-viz crammed into each repeated item, past any scannable density. (e.g. 21 slots in one row; 20 slots in one row; 16 slots in one row)
+  [layout/numbered-section-markers] [advisory] 3x: Decorative 01 / 02 / 03 scaffolding: leading-zero index labels stamped on sections whose order encodes nothing. (e.g. "01"; "02"; "03")
+snap-before/metricflow.html: PASS (5 advisory)
+  [layout/overstuffed-row] [advisory] 5x: The everything-row: thumbnail plus kicker plus title plus location plus quote plus mini-viz crammed into each repeated item, past any scannable density. (e.g. 6 slots in one row; 16 slots in one row; 5 slots in one row)
+
+2 file(s), 4 slop occurrence(s), 19 advisory.
