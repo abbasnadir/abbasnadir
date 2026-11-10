@@ -9,6 +9,16 @@ export function About() {
       <Container>
         <PageHeader title="About me" />
 
+        {site.photo && (
+          <img
+            src={site.photo}
+            alt={`${site.name}`}
+            width={480}
+            height={600}
+            className="mb-8 block h-auto w-40 rounded-md border border-rule sm:w-48"
+          />
+        )}
+
         <div className="space-y-4">
           {site.bio.map((para) => (
             <p key={para}>{para}</p>

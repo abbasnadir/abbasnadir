@@ -1,5 +1,5 @@
-// Every fact here comes from the resume, the project repos, or the PRs themselves.
-// Fields marked DRAFT are wording Abbas should rewrite in his own voice before publishing.
+// Every fact here comes from the resume, the project repos, the PRs or Abbas himself.
+// Fields marked DRAFT are wording Abbas should rewrite or confirm before publishing.
 // Copy rules: no dashes as punctuation, curly quotes, no "X, not Y" rebuttals, no filler adjectives.
 
 export const site = {
@@ -7,51 +7,30 @@ export const site = {
   url: 'https://abbasnadir.tech',
   email: 'abbasnadir.dev@proton.me',
   resume: '/Abbas_Nadir_Resume.pdf',
+  // Set to '/img/abbas.jpg' once the photo is in site/public/img (4:5 portrait works best).
+  photo: undefined as string | undefined,
   links: {
     github: 'https://github.com/abbasnadir',
     linkedin: 'https://www.linkedin.com/in/abbas-nadir-393143322/',
     leetcode: 'https://leetcode.com/pro0grammer/',
   },
   // DRAFT
-  summary: 'Backend developer and CSE student in Nagpur, looking for an internship.',
+  summary: 'Backend developer and CS student in Nagpur.',
+  // DRAFT
+  lede: 'I build APIs, real-time systems and data pipelines.',
   // DRAFT: everything below is assembled from the resume and repos; rewrite it in your own voice.
   bio: [
-    'I’m a third-year B.Tech student in Computer Science (AI and ML) at Ramdeobaba University in Nagpur. Most of what I build is backend work: REST APIs in Express and TypeScript, schemas in PostgreSQL and MongoDB, auth with JOSE and Supabase row-level security.',
-    'I run Linux on everything and wrote Lock Keys for the COSMIC desktop, and I send patches upstream when something in a tool I use is broken. Outside coursework I go to hackathons and help run my college’s CTF.',
+    'I’m a third-year B.Tech student in Computer Science (AI and ML) at Ramdeobaba University in Nagpur. Most of what I build is backend work: REST APIs in Express and TypeScript, real-time servers on Socket.IO, schemas in PostgreSQL, and auth with JWTs and Supabase row-level security.',
+    'I run Linux on everything and wrote Lock Keys for the COSMIC desktop, and when a library I depend on is missing something, I send the patch upstream. Outside coursework I go to hackathons and help run my college’s CTF.',
   ],
-  now: 'I’m building a video-to-OpenSim pipeline for a digital shoulder twin at Leelatai Kulkarni Hospital: MediaPipe, RTMW3D and MotionBERT estimate pose from video, and OpenSim 4.6 turns it into shoulder kinematics.',
+  // DRAFT
+  now: 'Building a video-to-OpenSim pipeline for shoulder research at Leelatai Kulkarni Hospital.',
 }
 
-export const tags = ['APIs', 'Real-time', 'Data', 'Mobile', 'Systems'] as const
-export type Tag = (typeof tags)[number]
-
-export type DiagramNode = {
-  id: string
-  label: string
-  sub?: string
-  x: number
-  y: number
-  w?: number
-  accent?: boolean
-}
-
-export type DiagramEdge = {
-  from: string
-  to: string
-  label?: string
-  // Pixel offset to separate two edges between the same pair of nodes.
-  bend?: number
-  hot?: boolean
-  // Traffic flows both ways along one line.
-  both?: boolean
-}
-
-export type Diagram = {
-  title: string
-  height: number
-  nodes: DiagramNode[]
-  edges: DiagramEdge[]
-}
+// A piece of real evidence shown on a project page: code from the repo, or a screenshot.
+export type Evidence =
+  | { kind: 'code'; title: string; source: string; url: string; code: string }
+  | { kind: 'image'; title: string; src: string; alt: string; width: number; height: number }
 
 export type Decision = {
   choice: string
@@ -64,183 +43,226 @@ export type Project = {
   name: string
   when: string
   summary: string
+  // One line of proof under the summary: where it runs, who it’s for, what it’s connected to.
+  proof: string
   stack: string[]
-  tags: Tag[]
   role: string
-  repo: string
+  repo?: string
   live?: string
+  // Shown in place of links when the code can’t be public.
+  closed?: string
+  cover?: Evidence
   problem: string
-  built: string[]
-  diagram: Diagram
+  firstTry?: string
+  how: { text: string; evidence?: Evidence }[]
   decisions: Decision[]
-  didntWork?: string
+  limits: string[]
   // DRAFT
-  nextTime: string
+  next?: string
 }
+
+const inverseMode = `export class InverseSinglePlayer extends SinglePlayerMode {
+    constructor(lives: number = 5) {
+        super("InverseSinglePlayer", 1, 1, lives);
+    }
+
+    evaluatePlayerResult(userId: string, isSolved: boolean) {
+        const player = this.players[userId];
+        return (player && player.lives > 0) ? "won" : "lost";
+    }
+
+    resetRound(word: string): void {
+        this.word = word;
+        this.players = {};
+        this.completedPlayersCount = 0;
+    }
+
+    getFinalResult(userId: string): string {
+        const p = this.players[userId];
+        return (p?.completed && p.lives > 0) ? "won" : "lost";
+    }
+}`
+
+const rateLimiter = `def hit(self, key) -> float:
+    now = time.monotonic()
+    self._prune(now)
+
+    hits = self._hits.setdefault(key, deque())
+    while hits and now - hits[0] >= self.per:
+        hits.popleft()
+
+    if len(hits) >= self.rate:
+        return self.per - (now - hits[0])
+
+    hits.append(now)
+    return 0.0`
+
+const transcript = `# Keep peak memory + API rate to one transcript at a time.
+_export_lock = asyncio.Lock()
+
+async with _export_lock:
+    with tempfile.TemporaryDirectory(prefix="transcript-") as tmp_dir:
+        out_path = os.path.join(tmp_dir, "transcript.html")
+        count = await chat_exporter.export_to_file(
+            channel,
+            out_path,
+            tz_info="UTC",
+            guild=channel.guild,
+            bot=bot,
+            fetch_reactors=fetch_reactors,
+            should_stop=should_stop,
+        )`
 
 export const projects: Project[] = [
   {
-    slug: 'metricflow',
-    name: 'MetricFlow',
-    when: '2026',
-    summary: 'Self-hosted website analytics, from the tracking script to the metrics worker.',
-    stack: ['Express', 'TypeScript', 'MongoDB', 'Python', 'Next.js', 'Zod', 'OpenAPI'],
-    tags: ['APIs', 'Data'],
-    role: 'Team of four. I wrote most of the code (16 of 20 commits), including the ingestion API.',
-    repo: 'https://github.com/abbasnadir/analytics-tracker',
-    problem:
-      'Embed one script on a website and get page views, sessions, unique visitors, bounce rate, top pages and device or geo breakdowns, without handing the data to a third-party tracker.',
-    built: [
-      'A browser SDK that captures page views, clicks and custom events and sends them to the backend.',
-      'An Express ingestion API (POST /api/v1/events) that accepts single or batched events, resolves the tenant from an API key, tags every request with a request ID and validates payloads with Zod.',
-      'MongoDB models with a tenant/event uniqueness index, so a retried batch doesn’t double-count, and a TTL index that expires raw events once they’ve been summarised.',
-      'A Python worker that pulls raw events, computes sessions, bounce rate, session duration and top pages, and posts the summaries back.',
-      'A Next.js dashboard with filters, charts and CSV export.',
-    ],
-    diagram: {
-      title: 'How a tracked event moves through MetricFlow',
-      height: 364,
-      nodes: [
-        { id: 'dash', label: 'Dashboard', sub: 'Next.js', x: 310, y: 16 },
-        { id: 'sdk', label: 'Website + SDK', sub: 'in the browser', x: 20, y: 150 },
-        { id: 'api', label: 'Backend API', sub: 'Express and Zod', x: 310, y: 150, accent: true },
-        { id: 'db', label: 'MongoDB', sub: 'raw and summaries', x: 600, y: 150 },
-        { id: 'py', label: 'Analyzer', sub: 'Python worker', x: 310, y: 284 },
-      ],
-      edges: [
-        { from: 'sdk', to: 'api', label: 'POST /events', hot: true },
-        { from: 'api', to: 'db', label: 'read, write' },
-        { from: 'dash', to: 'api', label: 'GET /metrics' },
-        { from: 'api', to: 'py', label: 'GET raw events', bend: -40 },
-        { from: 'py', to: 'api', label: 'POST summaries', bend: 40 },
-      ],
-    },
-    decisions: [
-      {
-        choice: 'Only the backend talks to MongoDB; the analyzer reads raw events and writes summaries through the API.',
-        why: 'Four people were building in parallel, so having one service own the data kept validation, auth and indexes in a single place where nobody could break someone else’s collections.',
-        cost: 'The analyzer pays an extra network hop, and the backend becomes a single point of failure. Our architecture doc admits it: “if backend breaks, everyone gets blocked.”',
-      },
-      {
-        choice: 'api.yml (OpenAPI) is the source of truth for every route and payload.',
-        why: 'The SDK, analyzer and dashboard were written by different people against the same contract, which let each of us work without waiting on the others.',
-        cost: 'Every route change has to be made twice, in code and in the spec, and drift only gets caught when someone notices.',
-      },
-      {
-        choice: 'A TTL index on raw events instead of keeping them forever.',
-        why: 'Raw events only matter until the worker has summarised them, so storage stays bounded without a cleanup job.',
-        cost: 'If the analyzer logic changes, metrics for periods older than the retention window can’t be recomputed.',
-      },
-    ],
-    // DRAFT
-    nextTime:
-      'Push raw events to the analyzer through a queue instead of having it pull them from the API, and load-test the ingestion endpoint so I can quote a real throughput number.',
-  },
-  {
     slug: 'hangman-v2',
     name: 'Hangman V2',
-    when: 'Dec 2025 to 2026',
-    summary: 'Multiplayer Hangman for up to 50 players over WebSockets.',
-    stack: ['Node.js', 'Express', 'Socket.IO', 'Supabase', 'Next.js', 'JOSE', 'Zod'],
-    tags: ['APIs', 'Real-time'],
+    when: 'Dec 2025 to Oct 2026',
+    summary: 'Multiplayer Hangman with rooms for 2 to 50 players and custom wordlists.',
+    proof: 'Live at hangman.abbasnadir.tech. Solo, 117 commits.',
+    stack: ['Node.js', 'Express', 'Socket.IO', 'Supabase', 'Next.js', 'Zod'],
     role: 'Solo project, 117 commits.',
     repo: 'https://github.com/abbasnadir/hangman-v2',
     live: 'https://hangman.abbasnadir.tech',
-    problem:
-      'My first Hangman was a frontend-only game. For V2 I wanted shared rooms, live turns, scoring and custom wordlists, on a backend that could grow new game modes without turning into one giant socket handler.',
-    built: [
-      'A Socket.IO server with a router for game actions (join, start, move) and pluggable game modes, Classic and Multiplayer, which implement a shared IGameMode interface and are looked up from a registry.',
-      'A separate Express REST API (/me, /profile, /logs) with its own middleware and rate limiters.',
-      'JWT auth with JOSE and Zod validation on every input.',
-      'Scoring and wordlists stored in Supabase (PostgreSQL).',
-      'A Next.js client where game-mode controllers live apart from the screens that draw them.',
-    ],
-    diagram: {
-      title: 'Hangman V2: what talks to what',
-      height: 330,
-      nodes: [
-        { id: 'client', label: 'Next.js client', sub: 'on Vercel', x: 20, y: 133 },
-        { id: 'rest', label: 'REST API', sub: 'Express, on Heroku', x: 310, y: 20 },
-        { id: 'ws', label: 'Socket.IO', sub: 'game modes, on Heroku', x: 310, y: 246, accent: true },
-        { id: 'db', label: 'Supabase', sub: 'PostgreSQL', x: 600, y: 133 },
-      ],
-      edges: [
-        { from: 'client', to: 'rest', label: 'HTTPS with JWT' },
-        { from: 'client', to: 'ws', label: 'moves and state', hot: true, both: true },
-        { from: 'rest', to: 'db', label: 'profiles' },
-        { from: 'ws', to: 'db', label: 'scores' },
-      ],
+    cover: {
+      kind: 'image',
+      title: 'Setting up a multiplayer game on the live site, with public wordlists to pick from',
+      src: '/img/hangman-setup.png',
+      alt: 'The Hangman V2 multiplayer setup screen: a wordlist search, a wordlist picker set to Blood Wars, a number of words field, and Cancel and Play buttons.',
+      width: 1360,
+      height: 1200,
     },
+    firstTry:
+      'Version one was a Hangman game that ran entirely in the browser: one player, one word list, no server. V2 is a rebuild from scratch around a backend, so several people can play the same words at once, results are saved, and players can make and share their own wordlists.',
+    problem:
+      'Once more than one person plays, the browser can’t be trusted with the game. The server has to own it: who is in the room, which guesses count, how many lives each player has left, when a round ends and who won. It also had to take new game modes without the socket handler turning into one long switch statement.',
+    how: [
+      {
+        text: 'Creating a game is a REST call to POST /game/create with the mode, wordlist, lives and number of words. Playing it happens over Socket.IO: the client connects with its Supabase JWT, sends game:join with the game id, and sends its guesses as socket events.',
+      },
+      {
+        text: 'Every mode extends an abstract CoreGameMode class, which handles moves, lives, rounds and scoring. A mode only defines the rules that differ: how many players it accepts, when a player has won and how a round resets. This is the whole of Inverse mode:',
+        evidence: {
+          kind: 'code',
+          title: 'Inverse mode, a complete game mode',
+          source: 'server/src/socket/game/modes/InverseSinglePlayer/index.ts',
+          url: 'https://github.com/abbasnadir/hangman-v2/blob/main/server/src/socket/game/modes/InverseSinglePlayer/index.ts',
+          code: inverseMode,
+        },
+      },
+      {
+        text: 'Multiplayer is the same base class with a lobby on top. It accepts 2 to 50 players, keeps a score per player, and shows players who drop as disconnected in the lobby. Running games are held in memory in a registry keyed by game id; profiles, wordlists and results are stored in Supabase.',
+      },
+    ],
     decisions: [
       {
-        choice: 'Frontend on Vercel; API and WebSocket server on Heroku.',
+        choice: 'Frontend on Vercel; API and socket server on Heroku.',
         why: 'Vercel’s serverless functions can’t hold long-lived WebSocket connections, so the game server needed a persistent process.',
         cost: 'Two deployments, two domains (hangman. and api.hangman.) and CORS to configure between them.',
       },
       {
-        choice: 'Game modes are classes behind an IGameMode interface, registered by name.',
-        why: 'Adding a mode means writing one controller instead of growing a switch statement in the socket router.',
-        cost: 'It’s more indirection than a two-mode game strictly needs, and it only pays off if more modes arrive.',
+        choice: 'Game modes are subclasses of one abstract CoreGameMode.',
+        why: 'Adding Inverse mode took one file of about 25 lines, with no change to the socket router.',
+        cost: 'The shared base class has grown to about 32 KB, so most fixes now land in one large file.',
       },
       {
-        choice: 'REST and WebSocket code live in separate top-level folders (src/api and src/socket).',
-        why: 'Profile and log endpoints follow request and response rules while game actions are event-driven, and keeping them apart stopped middleware written for one from applying to the other.',
-        cost: 'Some types and queries are needed by both, so a src/shared layer had to exist from day one.',
+        choice: 'Running games live in an in-memory registry.',
+        why: 'Every guess is checked against the game state, and keeping that state in the process avoids a database round trip per move.',
+        cost: 'Games live in one process: a restart ends every running game, and the server can’t run as a second instance without moving that state out. Heroku restarts dynos at least once a day.',
       },
     ],
+    limits: ['There are no automated tests yet.', 'Fifty players is the limit I designed for; I haven’t load-tested a full room.'],
     // DRAFT
-    nextTime: 'Load-test a full 50-player room. Fifty is the limit I designed for; I haven’t measured it yet.',
+    next: 'Write tests for the game modes, then load-test a full 50-player room.',
   },
   {
-    slug: 'surestep',
-    name: 'SureStep',
-    when: '2026',
-    summary: 'Offline clubfoot assessment for rural health workers; third prize at Medithon.',
-    stack: ['Flutter', 'Google ML Kit', 'SQLite', 'Flask', 'PostgreSQL'],
-    tags: ['Mobile', 'Data'],
-    role: 'Team TechSquad. I built landmark adjustment, patient records, brace tracking and teleconsultation, plus the early Flask backend.',
-    repo: 'https://github.com/abbasnadir/techsquad-medithon',
+    slug: 'restaurant-ordering',
+    name: 'Restaurant ordering app',
+    when: 'May to Jul 2026',
+    summary: 'QR-code table ordering and a restaurant dashboard, built at my internship.',
+    proof: 'Digikraft Media internship. I built it end to end; the code is private.',
+    stack: ['Express', 'TypeScript', 'Supabase', 'PostgreSQL', 'Next.js', 'Zod', 'JOSE', 'Turborepo'],
+    role: 'Backend Development Intern at Digikraft Media. I built the backend and the frontend (31 commits).',
+    closed: 'The code belongs to Digikraft, so there are no links or screenshots.',
+    // DRAFT: confirm this matches what the client asked for.
     problem:
-      'Clubfoot (CTEV) is scored with the Pirani method, which depends on consistent photos and an experienced examiner. Health workers at rural primary health centres often have neither, and often have no reliable connection either.',
-    built: [
-      'Guided capture of medial, lateral and posterior views using Google ML Kit pose detection on the device.',
-      'Manual landmark adjustment, so a health worker can correct the model when detection is off.',
-      'Patient records stored locally in SQLite, so the app works with no network.',
-      'A brace tracker for parents to log daily wear, and a teleconsultation ticket for problems like swelling.',
-      'An early Flask backend to act as the sync hub.',
+      'Customers at a table should be able to scan a QR code, see the menu and order without installing an app or making an account. The restaurant needed one dashboard to run its menu, tables, offers and orders.',
+    how: [
+      {
+        text: 'An Express API and a Next.js frontend in a Turborepo monorepo, with shared packages for types and the API client. Routes are split by who calls them: public restaurant pages, the cart, auth, media uploads, and an admin area for categories, menu items, offers, orders, tables, tags and onboarding.',
+      },
+      {
+        // DRAFT: describe what "abuse of the QR code" meant in practice.
+        text: 'Scanning a table’s QR code starts a cart session for that table. The session moved from localStorage to a cookie, and I tightened the session logic so a QR code can’t be used to abuse the cart.',
+      },
+      {
+        text: 'Admin requests carry a JWT signed with JOSE. Request bodies are validated with Zod, and the API is rate limited with express-rate-limit. Database queries live in their own modules, apart from the route helpers.',
+      },
+      {
+        text: 'Uploads are checked with the file-type library, which reads the file’s bytes, so a file can’t get through by being renamed. The frontend is an installable PWA, the table and cart endpoints have a written API spec, and the app is deployed on Render.',
+      },
     ],
-    diagram: {
-      title: 'SureStep: capture on the phone, sync when there’s signal',
-      height: 300,
-      nodes: [
-        { id: 'cam', label: 'Camera', sub: 'guided views', x: 20, y: 20 },
-        { id: 'ml', label: 'ML Kit', sub: 'on the device', x: 20, y: 216 },
-        { id: 'app', label: 'Flutter app', sub: 'SQLite, offline', x: 310, y: 118, accent: true },
-        { id: 'api', label: 'Flask', sub: 'sync hub', x: 600, y: 118 },
-      ],
-      edges: [
-        { from: 'cam', to: 'app', label: 'frames' },
-        { from: 'ml', to: 'app', label: 'landmarks' },
-        { from: 'app', to: 'api', label: 'sync later', hot: true },
-      ],
-    },
     decisions: [
       {
-        choice: 'Offline-first: SQLite on the device, synced to the server later.',
-        why: 'The people using it work in low-connectivity areas, where an app that needs the network to save a patient record is useless.',
-        cost: 'Sync and conflict handling become the hard part, and in a hackathon they stayed basic.',
-      },
-      {
-        choice: 'Pose detection on the device instead of on a server.',
-        why: 'Guiding the capture needs no upload, which keeps it fast and keeps images on the phone.',
-        cost: 'ML Kit’s general pose model wasn’t trained on infant feet, which caps how accurate it can be.',
+        choice: 'Check uploads by their content with file-type.',
+        why: 'The file name and the MIME type in a request are both chosen by the client, so neither proves what a file is.',
+        cost: 'Every upload has to be read before it’s stored.',
       },
     ],
-    didntWork:
-      'Real detection wasn’t reliable enough for a live demo, so the team built a fallback mode that generates simulated keypoints. The prototype demonstrates the workflow; it isn’t a validated clinical tool.',
+    limits: ['I can’t show code or screenshots from this project.'],
+  },
+  {
+    slug: 'bwars-helper',
+    name: 'bwars-helper',
+    when: 'Oct to Nov 2026',
+    summary: 'Discord bot that runs game channels, tickets and archives on our server.',
+    proof: 'In use on our Blood Wars server. Archives use my DiscordChatExporterPy patch.',
+    stack: ['Python', 'discord.py', 'DiscordChatExporterPy'],
+    role: 'Solo, 8 commits.',
+    repo: 'https://github.com/abbasnadir/bwars-helper',
+    cover: {
+      kind: 'code',
+      title: 'The limiter behind every slash command',
+      source: 'utils/ratelimit.py',
+      url: 'https://github.com/abbasnadir/bwars-helper/blob/main/utils/ratelimit.py',
+      code: rateLimiter,
+    },
+    // DRAFT: confirm, and say what you did before the bot existed.
+    problem:
+      'We play Blood Wars, a game run inside a private Discord server. Every game needs its own category of channels with the right permissions for hosts, players, spectators and jailed players, and when a game ends its channels are worth keeping. Doing that by hand for every game was slow and easy to get wrong.',
+    how: [
+      {
+        text: '/create_game builds a game’s category, channels and permission overwrites in one command, and /delete_game removes them. A ticket panel opens private support channels; its buttons keep working after the bot restarts because the views are registered as persistent.',
+      },
+      {
+        text: '/archive turns a “The game N” category into HTML transcripts and locks it to an archive role, and /unarchive reverses it. Exporting a channel reads its whole history, so exports go through one lock and the bot runs at most three archive jobs at a time:',
+        evidence: {
+          kind: 'code',
+          title: 'One transcript at a time',
+          source: 'utils/transcript.py',
+          url: 'https://github.com/abbasnadir/bwars-helper/blob/main/utils/transcript.py',
+          code: transcript,
+        },
+      },
+      {
+        text: 'The fetch_reactors option above comes from my pull request to DiscordChatExporterPy, so archived transcripts show who reacted to each message. Every slash command also passes through a sliding-window limiter in the command tree: five commands per user every fifteen seconds, on top of each command’s own cooldown.',
+      },
+    ],
+    decisions: [
+      {
+        choice: 'One rate limiter in the command tree’s interaction_check.',
+        why: 'A single check covers every slash command, including ones added later.',
+        cost: 'Hits are kept in memory, so limits reset when the bot restarts.',
+      },
+      {
+        choice: 'Add the missing feature to the export library upstream.',
+        why: 'Transcripts needed to show who reacted, and the library had no way to do it. The patch caps it at ten reactors per reaction to stay clear of Discord’s rate limits.',
+        cost: 'Until the pull request is merged, the bot ships a build of the patched library in its repo and won’t pick up upstream fixes on its own.',
+      },
+    ],
+    limits: ['No README or tests yet.'],
     // DRAFT
-    nextTime:
-      'Collect a properly consented dataset of infant foot images (the app already has an opt-in flow for this) before claiming anything about scoring accuracy.',
+    next: 'Write a README with setup steps, and move rate limit state somewhere that survives a restart.',
   },
 ]
 
@@ -265,9 +287,9 @@ export const experience: Job[] = [
     org: 'Digikraft Media Pvt. Ltd.',
     when: 'May to Jul 2026',
     points: [
-      'Built backend and full-stack features for a private restaurant management app in Next.js, Express and Supabase.',
+      'Built a restaurant ordering app with QR-code table sessions and an admin dashboard in Next.js, Express and Supabase.',
       'Designed the database schemas and set up Supabase auth with Row Level Security.',
-      'Wrote REST APIs with JOSE-based JWT auth, Zod validation, rate limiting and file-type checks, and contributed to the API docs.',
+      'Wrote REST APIs with JOSE-based JWT auth, Zod validation, rate limiting and file-type checks on uploads, and wrote the API spec.',
     ],
   },
   {
@@ -304,7 +326,7 @@ export const openSource = [
     pr: '#159',
     url: 'https://github.com/mahtoid/DiscordChatExporterPy/pull/159',
     status: 'Open',
-    what: 'Shows who reacted to a message, and fixes emoji that didn’t enlarge.',
+    what: 'Adds an option to show who reacted to each message, capped at ten reactors to avoid rate limits, and fixes emoji-only messages that didn’t enlarge. bwars-helper uses it for its archives.',
   },
 ]
 
@@ -313,66 +335,98 @@ export const hackathons = [
   { place: 'Second place', event: 'TechmentorX, Priyadarshini College', what: 'AI-generated quizzes to spot learning gaps early, with Team Cybirbs' },
 ]
 
-export type OtherProject = {
+export type ArchiveEntry = {
+  year: number
   name: string
-  url: string
   what: string
   stack: string[]
-  tags: Tag[]
+  code?: string
   live?: string
 }
 
-// Role notes come from commit history: Nagpur Traffic AI is a team of three (9 of 17 commits are Abbas’s);
-// the rest are solo repos.
-export const otherProjects: OtherProject[] = [
+// Years are when each repo was created. Private repos have no links.
+export const archive: ArchiveEntry[] = [
   {
-    name: 'Lock Keys',
-    url: 'https://github.com/abbasnadir/lock-keys',
-    what: 'A Rust daemon and COSMIC panel applets that show Caps Lock and Num Lock state on keyboards without indicator LEDs.',
-    stack: ['Rust', 'COSMIC'],
-    tags: ['Systems'],
+    year: 2026,
+    name: 'GroundTruth',
+    what: 'SDG indicators for Indian districts from satellite data. Hackathon project, being rebuilt.',
+    stack: ['FastAPI', 'Earth Engine', 'Supabase', 'Next.js'],
   },
   {
+    year: 2026,
+    name: 'SureStep',
+    what: 'Offline clubfoot screening app for rural health workers. Team project, third prize at Medithon.',
+    stack: ['Flutter', 'ML Kit', 'SQLite', 'Flask'],
+    code: 'https://github.com/abbasnadir/techsquad-medithon',
+  },
+  {
+    year: 2026,
     name: 'Nagpur Traffic AI',
-    url: 'https://github.com/abbasnadir/viksit-nagpur',
-    what: 'Team project: a traffic dashboard for Nagpur with a FastAPI REST and WebSocket backend and a React map.',
-    stack: ['FastAPI', 'Python', 'React', 'WebSockets'],
-    tags: ['Real-time', 'Data'],
+    what: 'Traffic dashboard for Nagpur with a REST and WebSocket backend. Team of three.',
+    stack: ['FastAPI', 'React', 'WebSockets'],
+    code: 'https://github.com/abbasnadir/viksit-nagpur',
   },
   {
+    year: 2026,
+    name: 'MetricFlow',
+    what: 'Website analytics: tracking SDK, ingestion API and a Python worker. Unfinished.',
+    stack: ['Express', 'MongoDB', 'Python'],
+    code: 'https://github.com/abbasnadir/analytics-tracker',
+  },
+  {
+    year: 2026,
     name: 'Stock market visualizer',
-    url: 'https://github.com/abbasnadir/stock-market-visualizer',
-    what: 'A Dash app for stock charts and paper-trading portfolios, with Supabase auth and live prices from Yahoo Finance.',
+    what: 'Stock charts and paper-trading portfolios with live prices from Yahoo Finance.',
     stack: ['Python', 'Dash', 'Supabase'],
-    tags: ['Data'],
+    code: 'https://github.com/abbasnadir/stock-market-visualizer',
   },
   {
+    year: 2026,
+    name: 'VaniFlow',
+    what: 'AI voice and IVR workflow platform, built at a hackathon.',
+    stack: ['Node.js'],
+  },
+  {
+    year: 2026,
+    name: 'ags-auto-agent',
+    what: 'An early experiment: an OpenAI-compatible client with a file-reading tool.',
+    stack: ['TypeScript', 'OpenAI SDK'],
+    code: 'https://github.com/abbasnadir/ags-auto-agent',
+  },
+  {
+    year: 2026,
+    name: 'Lock Keys',
+    what: 'Rust daemon and COSMIC panel applets that show Caps Lock and Num Lock state.',
+    stack: ['Rust', 'COSMIC'],
+    code: 'https://github.com/abbasnadir/lock-keys',
+  },
+  {
+    year: 2025,
+    name: 'Supabase backend template',
+    what: 'The starter I reuse for full-stack apps on Supabase.',
+    stack: ['TypeScript', 'Supabase'],
+    code: 'https://github.com/abbasnadir/supabase-backend-template',
+  },
+  {
+    year: 2025,
     name: 'Chatbot',
-    url: 'https://github.com/abbasnadir/chatbot',
     what: 'A Gemini wrapper with sign-in and chats saved to a database.',
     stack: ['Next.js', 'TypeScript'],
-    tags: ['APIs'],
+    code: 'https://github.com/abbasnadir/chatbot',
     live: 'https://chatbot-two-xi-30.vercel.app',
   },
   {
+    year: 2021,
     name: 'Blink Bot',
-    url: 'https://github.com/abbasnadir/blinkbot',
-    what: 'A Discord bot with a web dashboard and a database. Archived.',
+    what: 'A Discord bot with a web dashboard. Archived.',
     stack: ['JavaScript', 'Discord'],
-    tags: ['APIs'],
-  },
-  {
-    name: 'Supabase backend template',
-    url: 'https://github.com/abbasnadir/supabase-backend-template',
-    what: 'The starter I reuse for full-stack apps on Supabase.',
-    stack: ['TypeScript', 'Supabase'],
-    tags: ['APIs'],
+    code: 'https://github.com/abbasnadir/blinkbot',
   },
 ]
 
 export const skills = [
-  { group: 'Backend', items: 'Node.js, Express, REST, OpenAPI, Socket.IO, JWT with JOSE, Zod' },
+  { group: 'Backend', items: 'Node.js, Express, REST, OpenAPI, Socket.IO, JWT with JOSE, Zod, FastAPI' },
   { group: 'Data', items: 'PostgreSQL, Supabase with RLS, MongoDB and Mongoose' },
   { group: 'Frontend', items: 'TypeScript, React, Next.js, Tailwind CSS' },
-  { group: 'Also', items: 'Python, Java, Rust (learning), Linux, Git, Docker (basic)' },
+  { group: 'Also', items: 'Python, discord.py, Java, Rust (learning), Linux, Git, Docker (basic)' },
 ]

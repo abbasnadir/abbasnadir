@@ -16,7 +16,7 @@ export function NotFound() {
         <p className="mt-4">It may have moved, or the link was mistyped.</p>
         <LinkRow>
           <UiLink to="/">Go to the homepage</UiLink>
-          <UiLink to="/work">See the projects</UiLink>
+          <UiLink to="/archive">See everything I’ve built</UiLink>
         </LinkRow>
       </section>
     </Container>

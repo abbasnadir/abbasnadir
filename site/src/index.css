@@ -1,6 +1,6 @@
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R3 V4 · weakest: R, the user asked for more motion; every effect is swift (120 to 320ms), transform or opacity only, tied to a real action or to data moving, and off under reduced motion */
-/* Hallmark · dismissed 58 · a case study is a long document the reviewer chose to open; cutting it would drop the decisions and costs interviewers ask about */
-/* Hallmark · theme: custom, resume-first portfolio · job: hire, read a case study or send an email · nav: left cluster after the wordmark, a thread marks the current page, no hairline · footer: email with copy, four plain links · motif: threads and node shapes, no gradients */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S was low while diagrams stood in for the work; they are gone and every project now shows real evidence (its own code, a screenshot of the live app) with one proof line */
+/* Hallmark · dismissed 58 · a project page is a long document the reviewer chose to open; cutting it would drop the decisions and costs interviewers ask about */
+/* Hallmark · theme: custom, resume-first portfolio · job: hire, read how a project works or send an email · nav: left cluster after the wordmark, a thread marks the current page, no hairline · footer: email with copy, four plain links · motif: packets on a wire in the hero, threads for small motion, no gradients */
 
 @import 'tailwindcss';
 
@@ -106,6 +106,14 @@
     text-wrap: pretty;
   }
 
+  /* Tailwind's preflight sets code to monospace; this site uses none, code included. */
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-sans);
+  }
+
   strong {
     font-weight: 600;
   }
@@ -189,10 +197,11 @@
     text-decoration-line: none;
   }
 
-  .threads {
+  /* The packet band under the masthead. Packets fade near the edges in the canvas itself. */
+  .wire {
     display: block;
     width: 100%;
-    height: 10rem;
+    height: 9rem;
     touch-action: pan-y;
   }
 
@@ -219,86 +228,19 @@
     transform: scale(0.97);
   }
 
-  /* Work filter: items keep their identity across a filter change so the browser animates the reflow. */
-  .work-item {
-    view-transition-class: work-item;
-  }
-
-  /* Diagram */
-  .diagram-scroll {
+  /* Code excerpts: same sans as the rest of the site, whitespace kept, scrolls sideways if needed. */
+  .code-scroll {
     overflow-x: auto;
     scrollbar-color: var(--packet) var(--surface);
     scrollbar-width: thin;
   }
 
-  .node rect,
-  .node circle {
-    fill: none;
-    stroke: var(--packet);
-    stroke-width: 1.5;
-  }
-
-  .node-accent rect,
-  .node-accent circle {
-    stroke: var(--accent);
-  }
-
-  .node-label {
-    fill: var(--ink);
+  .code {
     font-family: var(--font-sans);
-    font-size: 17px;
-    font-weight: 600;
-  }
-
-  .node-sub {
-    fill: var(--muted);
-    font-family: var(--font-sans);
-    font-size: 13px;
-  }
-
-  .edge {
-    fill: none;
-    stroke: var(--packet);
-    stroke-width: 1.5;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    transition: stroke-dashoffset 520ms var(--ease);
-  }
-
-  .is-seen .edge {
-    stroke-dashoffset: 0;
-  }
-
-  .edge-hot {
-    stroke: var(--accent);
-  }
-
-  .diagram-arrow {
-    fill: var(--muted);
-  }
-
-  .edge-label {
-    fill: var(--muted);
-    font-family: var(--font-sans);
-    font-size: 13px;
-    paint-order: stroke;
-    stroke: var(--surface);
-    stroke-width: 6px;
-    stroke-linejoin: round;
-    opacity: 0;
-    transition: opacity var(--dur-base) var(--ease) 360ms;
-  }
-
-  .is-seen .edge-label {
-    opacity: 1;
-  }
-
-  .packet {
-    fill: var(--muted);
-  }
-
-  .packet-hot {
-    fill: var(--accent);
+    line-height: 1.55;
+    white-space: pre;
+    tab-size: 4;
+    font-variant-numeric: tabular-nums;
   }
 
   /* Copy button burst */
@@ -340,9 +282,7 @@
 }
 
 ::view-transition-group(nav-thread),
-::view-transition-group(filter-thread),
-::view-transition-group(page-title),
-::view-transition-group(*.work-item) {
+::view-transition-group(page-title) {
   animation-duration: var(--dur-base);
   animation-timing-function: var(--ease);
 }
@@ -378,14 +318,6 @@
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;
-  }
-
-  .edge {
-    stroke-dashoffset: 0;
-  }
-
-  .edge-label {
-    opacity: 1;
   }
 }
 

@@ -59,7 +59,7 @@ export function Resume() {
             <div key={p.slug} className="mt-5">
               <EntryHead
                 title={
-                  <Link to={`/work/${p.slug}`} viewTransition className="ui-link text-accent">
+                  <Link to={`/projects/${p.slug}`} viewTransition className="ui-link text-accent">
                     {p.name}
                   </Link>
                 }

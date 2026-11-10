@@ -9,10 +9,10 @@ const dist = join(root, 'dist')
 const index = join(dist, 'index.html')
 
 // Keep in sync with the routes in src/App.tsx.
-const pages = ['work', 'about', 'open-source', 'resume']
+const pages = ['archive', 'about', 'resume']
 const content = readFileSync(join(root, 'src/content.ts'), 'utf8')
 const slugs = [...content.matchAll(/slug: '([^']+)'/g)].map((m) => m[1])
-const routes = [...pages, ...slugs.map((s) => `work/${s}`)]
+const routes = [...pages, ...slugs.map((s) => `projects/${s}`)]
 
 for (const route of routes) {
   const dir = join(dist, route)

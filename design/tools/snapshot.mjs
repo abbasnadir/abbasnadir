@@ -1,11 +1,11 @@
 // Saves fully rendered HTML of each route with the bundled CSS inlined, so static
 // linters (sloplint, anti-slop) can read what the browser actually shows.
-// Usage: node snapshot.mjs <out-dir> [route ...]   (default routes: / and /work/metricflow)
+// Usage: node snapshot.mjs <out-dir> [route ...]   (default: every page type)
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { BASE, launch } from './browser.mjs'
 
 const [out = 'snapshots', ...routes] = process.argv.slice(2)
-const targets = routes.length ? routes : ['/', '/work/metricflow']
+const targets = routes.length ? routes : ['/', '/projects/hangman-v2', '/projects/restaurant-ordering', '/projects/bwars-helper', '/archive', '/about', '/resume']
 mkdirSync(out, { recursive: true })
 
 const browser = await launch()

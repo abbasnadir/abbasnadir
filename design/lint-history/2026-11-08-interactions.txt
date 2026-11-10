@@ -1,0 +1,12 @@
+pass  thread band survives pointer sweep
+pass  nav to /work: h1 "Work", one nav thread
+pass  nav to /about: h1 "About me", one nav thread
+pass  nav to /open-source: h1 "Open source", one nav thread
+pass  nav to /resume: h1 "Abbas Nadir", one nav thread
+pass  filter Systems shows 1 item (got 1)
+pass  filter All restores 9 items
+pass  case study diagram draws once in view
+pass  packets flow after the edges draw
+pass  copy button bursts
+pass  email copied to clipboard
+pass  no console errors

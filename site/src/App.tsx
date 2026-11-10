@@ -2,12 +2,11 @@ import { createBrowserRouter } from 'react-router'
 import { RouterProvider } from 'react-router/dom'
 import { Layout } from './components/Layout'
 import { About } from './pages/About'
-import { CaseStudy } from './pages/CaseStudy'
+import { Archive } from './pages/Archive'
 import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
-import { OpenSource } from './pages/OpenSource'
+import { Project } from './pages/Project'
 import { Resume } from './pages/Resume'
-import { Work } from './pages/Work'
 
 // Static routes are also listed in scripts/spa-routes.mjs so GitHub Pages serves them with a 200.
 const router = createBrowserRouter([
@@ -15,10 +14,9 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'work', element: <Work /> },
-      { path: 'work/:slug', element: <CaseStudy /> },
+      { path: 'projects/:slug', element: <Project /> },
+      { path: 'archive', element: <Archive /> },
       { path: 'about', element: <About /> },
-      { path: 'open-source', element: <OpenSource /> },
       { path: 'resume', element: <Resume /> },
       { path: '*', element: <NotFound /> },
     ],

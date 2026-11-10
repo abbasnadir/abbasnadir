@@ -28,6 +28,8 @@ cp "$ROOT/site/src/index.css" "$WORK/snap/source.css"
 node "$DESIGN/vendor/hallmark/scripts/sloplint.mjs" "$WORK/snap" | tee "$DESIGN/lint-history/$DATE-hallmark.txt" || true
 npx -y @gessobuild/anti-slop check "$WORK/snap" 2>/dev/null | tee "$DESIGN/lint-history/$DATE-gesso.txt" || true
 
+node "$DESIGN/tools/interactions.mjs" | tee "$DESIGN/lint-history/$DATE-interactions.txt"
+
 if [[ "${1:-}" != "--no-shots" ]]; then
   node "$DESIGN/tools/screenshots.mjs" "$DESIGN/screenshots/$DATE"
 fi

@@ -5,9 +5,8 @@ import { CopyEmail } from './CopyEmail'
 import { Container } from './ui'
 
 const nav = [
-  { to: '/work', label: 'Work' },
+  { to: '/archive', label: 'Archive' },
   { to: '/about', label: 'About' },
-  { to: '/open-source', label: 'Open source' },
   { to: '/resume', label: 'Résumé' },
 ]
 

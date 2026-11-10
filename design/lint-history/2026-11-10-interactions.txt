@@ -1,0 +1,15 @@
+pass  packet band survives pointer sweep
+pass  home lists 3 featured projects (got 3)
+pass  nav to /archive: h1 "Archive", one nav thread
+pass  nav to /about: h1 "About me", one nav thread
+pass  nav to /resume: h1 "Abbas Nadir", one nav thread
+pass  archive table has 11 rows
+pass  timeline draws once in view
+pass  How it works opens the project page
+pass  project page shows its screenshot
+pass  project page shows a code excerpt
+pass  code excerpt uses no monospace ("Rethink Sans Variable")
+pass  internship page links no private code
+pass  copy button bursts
+pass  email copied to clipboard
+pass  no console errors
